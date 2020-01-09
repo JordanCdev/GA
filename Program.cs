@@ -35,17 +35,11 @@ namespace ACW
 
                     //These represent random weights 
                     population[i, x] = ((_rand.NextDouble() * 2) - 1);
-
                 }
-
-
                 solutions[i] = GetResults(randomWeights); //finds score from each 60 weights
-                randomWeights.Clear();
-                
-         
+                randomWeights.Clear();    
             }
-
-
+            
             do
             {
                 Print(); //prints current generation 
@@ -63,17 +57,13 @@ namespace ACW
                 {
                     for (int x = 0; x < 60; x++)
                     {
-
                         //Copy over newPopulation arrays to population 
                         population[i, x] = newPopulation[i, x];
                         randomWeights.Add(population[i, x]);
-
                     }
-
-
+                    
                     solutions[i] = GetResults(randomWeights); //finds score from each 60 weights
                     randomWeights.Clear();
-
 
                     //Console.WriteLine("GEN 2: " + solutions[i].ToString());
                 }
@@ -90,7 +80,6 @@ namespace ACW
         }
         public static void Print()//will mainly print doubles if not string is ok
         {
-
             using (StreamWriter sw = new StreamWriter("output.csv", true))//writes to CSV and appends data
             {
                 //if(generation == 1)
@@ -103,11 +92,8 @@ namespace ACW
                     sw.Write(solutions[i].ToString() + ',');
                 }
                 sw.WriteLine();
-
             }
-
         }
-
 
         public static void Creation()//selects 4 members
         {
@@ -117,8 +103,6 @@ namespace ACW
             int[] indexSelect = new int[tournament.Length]; //will be used to store unique integers equal to size of our tournament 
             int temp = 0;
             double[,] tourneyInfo = new double[tournament.Length, 2]; //will store the member index and their fitness score
-
-
 
             for (int i = 0; i < tournament.Length; i++)
             {
@@ -136,10 +120,7 @@ namespace ACW
                 }
                 else//if the random number has already been picked then reiterate by doing i--, do till we find a non-duplicate number
                 {
-
                     i--;
-
-
                 }
             }
             //compare the solution scores, remove the 2 lowest
@@ -164,9 +145,7 @@ namespace ACW
                     parents[1, 1] = tourneyInfo[i, 1];
                 }
             }
-
-
-
+            
             parentsIndex[0] = (int)parents[0, 0];
             parentsIndex[1] = (int)parents[1, 0];
             //Creation(parentsIndex, parents);
@@ -197,15 +176,12 @@ namespace ACW
                     tempChild.Add(population[parentsIndex[0], i]); //make child = first parent from selection method
                 }
             }
-
-
+            
             double mutationRate = 0.055; //sets our mutation ration
             double toMutate;
             double[] newChild = new double[tempChild.Count];
             tempChild.CopyTo(newChild); 
-
-
-
+            
             for (int i = 0; i < newChild.Length; i++)
             {
                 toMutate = GetRandomNumber(0, 1);
@@ -214,20 +190,15 @@ namespace ACW
                     newChild[i] = _rand.NextDouble() * 2 - 1;
                 }
             }
-
             //child ready to be a member in new population - copy over 
             //when all created and added make population = newpopulation
             //clear new population 
-
-
             Console.WriteLine(GetResults(tempChild));
 
             for (int i = 0; i < newChild.Length; i++)
             {
                 newPopulation[countCreation, i] = newChild[i]; //copy over each offspring to newPopulation, do this X amount of times till we have a full population to copy over to the next generation  
-            }
-           
-
+            }      
         }
 
         public static double GetResults(List<double> weights)//Function to get fitness for each member in our population
@@ -252,7 +223,6 @@ namespace ACW
             do
             {
                 double[][] sval = (p.getSensorValues());
-
                 double[] inputs = new double[10];
 
                 for (int i = 0; i < p.getcrabnum(); i++)
@@ -264,19 +234,15 @@ namespace ACW
                     }
 
                     v.SetInputs(inputs);
-
                     v.Execute();
 
                     double[] outputs = v.GetOutputs();
-
                     motor_vals[i][0] = ((outputs[0])) * 127;
                     motor_vals[i][1] = ((outputs[1])) * 127;
-
                 }
-
             }
             while (p.performOneStep(motor_vals) == 1);
-
+            
             return p.getFitness();
         }
     }
